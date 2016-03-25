@@ -3,11 +3,11 @@ var splashes = [];
 var links = [];
 
 var dot_index = 0;
+var link_index = 0;
 
 function setup(){
  var cnv = createCanvas(windowWidth, windowHeight);
 
- // setInterval(background(255), 10000);
 }
 
 function update(){
@@ -15,16 +15,17 @@ function update(){
     e.update();
   });
 
-  if(links.length > 200){
-    links.splice(0, 2);
+  if(links.length > 1000){
+    links.splice(0, dots.length);
   }
 
-  if(links.length > 1000){
-    links.splice(0, 10);
+  if(links.length > 2000){
+    links.splice(0, dots.length*2);
   }
 }
 
 function draw(){
+  noCursor();
   drawBackground();
   update();
 
@@ -37,17 +38,20 @@ function draw(){
   });
 
   debug();
+  noFill();
+  stroke(100);
+  ellipse(mouseX, mouseY, 1, 1);
 }
 
 function debug(){
   noStroke();
-  fill(0);
+  fill(255);
   text(dots.length, 10, 10);
   text(links.length, 10, 30);
 }
 
 function drawBackground(){
-  background(10, 40);
+  background(0, 50);
 }
 
 function addDot(pos, col, size){
@@ -61,5 +65,6 @@ function addDot(pos, col, size){
 }
 
 function mouseReleased(){
+  background(0);
   addDot(createVector(random(width*0.1, width*0.9), random(height*0.1, height*0.9)), color(random(100, 255), random(100, 255), random(100, 255)), 2);
 }

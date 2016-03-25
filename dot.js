@@ -43,9 +43,15 @@ var Dot = function(_pos, _col, _rad, _index){
     }
 
     if(growing){
-      this.rad += 1;
+      // this.rad += 1;
+      push();
+      translate(this.position.x, this.position.y);
+      rotate(random(PI));
+      stroke(this.col);
+      line(-this.rad*2, 0, this.rad*2, 0);
+      pop();
     }else{
-      this.rad--;
+      // this.rad--;
     }
 
     //TODO: zooming out based on the number of particles introduced
@@ -134,12 +140,16 @@ var Dot = function(_pos, _col, _rad, _index){
 
   this.display = function(){
     fill(this.col);
-    fill(255, 100);
     noStroke();
     push();
     translate(this.position.x, this.position.y);
     ellipse(0, 0, 2+this.rad, 2+this.rad);
     pop();
+
+    // stroke(red(this.col), blue(this.col), green(this.col), 30);
+    // for(var i = 0; i < dots.length; i++){
+    //   line(this.position.x, this.position.y, dots[i].position.x, dots[i].position.y);
+    // }
   }
 
   this.connectOther = function(){
@@ -151,7 +161,8 @@ var Dot = function(_pos, _col, _rad, _index){
           if(!this.closeness[i]){
             this.closeness[i] = true;
           }
-          links.push(new Link(this.position, dots[i].position, this.col));
+          links.push(new Link(this.position, dots[i].position, this.col, link_index));
+          link_index++;
         }else{
           if(this.closeness[i])
             this.closeness[i] = false;
