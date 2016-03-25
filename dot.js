@@ -21,7 +21,7 @@ var Dot = function(_pos, _col, _rad, _index){
   this.seek_coeff = 0.5;
   this.seek_limit = 0.3;
 
-  this.max_rad = this.rad*5;
+  this.max_rad = 20;
 
 
   this.col = color(red(_col), blue(_col), green(_col));
@@ -42,20 +42,15 @@ var Dot = function(_pos, _col, _rad, _index){
         growing = true;
     }
 
-    fill(255);
-    text(growing, this.position.x, this.position.y);
-
-    // if(growing){
-    //   console.log('growing');
-    //   this.rad = 30;
-    // }else{
-    //   console.log('not growing');
-    //   this.rad--;
-    // }
+    if(growing){
+      this.rad += 1;
+    }else{
+      this.rad--;
+    }
 
     //TODO: zooming out based on the number of particles introduced
 
-    this.rad = constrain(this.rad, 2, this.max_rad);
+    this.rad = constrain(this.rad, 1, this.max_rad);
 
 
     this.velocity.add(this.acceleration);
@@ -139,10 +134,11 @@ var Dot = function(_pos, _col, _rad, _index){
 
   this.display = function(){
     fill(this.col);
+    fill(255, 100);
     noStroke();
     push();
     translate(this.position.x, this.position.y);
-    ellipse(0, 0, this.rad, this.rad);
+    ellipse(0, 0, 2+this.rad, 2+this.rad);
     pop();
   }
 
@@ -154,7 +150,6 @@ var Dot = function(_pos, _col, _rad, _index){
           // line(this.position.x, this.position.y, dots[i].position.x, dots[i].position.y);
           if(!this.closeness[i]){
             this.closeness[i] = true;
-            ellipse(this.position.x, this.position.y, 20, 20);
           }
           links.push(new Link(this.position, dots[i].position, this.col));
         }else{
